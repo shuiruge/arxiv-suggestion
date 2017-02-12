@@ -1,7 +1,7 @@
 arxiv-suggestion
 =========
 
-Give everyday suggestion of papers on arxiv.org. "Naive Bayes algorithm" is employed. Written by Python3.
+Give everyday suggestion of papers on arxiv.org, sorted in the order that the upper papers are regarded as interesting to you. "Naive Bayes algorithm" is employed. Written by Python3.
 
 The following is a simple instance.
 
@@ -60,7 +60,7 @@ print(liked)
 
 
 ```python
-axs.label(liked, True)
+axs.label(liked, True) # `True` means you like the paper_list. `False` means you don't.
 print(axs.liked_papers)
 print(axs.disliked_papers)
 ```
