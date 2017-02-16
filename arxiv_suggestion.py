@@ -210,7 +210,7 @@ def write_personal_data():
     return None
 
 def show_entry(entry):
-    """ Entry -> None
+    """ Entry -> 
     """
     print("-------------------------")
     print("Title: ", entry.title)
@@ -220,30 +220,24 @@ def show_entry(entry):
     print("-------------------------")
     print()
 
+
+def sort_by_func(lst, func):
+    """ [a] * (a -> Real) -> [b]
+        
+    Default is descent.
+    """
+    lst_reconstruct = [(func(item), item) for item in lst]
+    get_key = lambda item: item[0]
+    sorted_lst = sorted(lst_reconstruct, key = get_key, reverse=True)
+    result = [item[1] for item in sorted_lst]
+    return result
+
 def sort_entries_by_nb(entries, personal_data):
     """ [Entry] -> [Entry]
     """
-    def sort_by_first(lst):
-        """ [a] -> None
-            Not a function -- modifies the outer frame
-        """
-        lst.sort()
-        lst.reverse()
-        return None
-    lst = [[log_post_prob_ratio(entry, personal_data), entry] for entry in entries]
-    sort_by_first(lst)
-    entries_sorted = [item[1] for item in lst]
-    return entries_sorted
-    
-def read_arxiv(search_query, start = 0, max_results = 10, pd = personal_data):
-    """ Str * Int (=0) * Int (=10) -> None
-    """
-    id_list = []
-    entries = get_entries(search_query, id_list, start, max_results)
-    entries_sorted = sort_entries_by_nb(entries, pd)
-    for entry in entries_sorted:
-        show_entry(entry)
-    return None
+    func = lambda entry: log_post_prob_ratio(entry, personal_data)
+    entries_sorted = sort_by_func(entries, func)
+    return entries_sorted   
 
 def label(id_list, likeQ):
     """ [Str] * Boolean -> None
@@ -257,10 +251,20 @@ def label(id_list, likeQ):
             like_papers['False'].append(paper_id)
     return None
 
-def update():
-    """ None -> None
-        Not a function -- modifies the `personal_data` file
+def read_arxiv(search_query, start = 0, max_results = 10):
+    """ Str * Int (=0) * Int (=10) -> None
     """
+    personal_data = read_personal_data()
+    entries = get_entries(search_query, [], start, max_results)
+    entries_sorted = sort_entries_by_nb(entries, personal_data)
+    for entry in entries_sorted:
+        show_entry(entry)
+        input_str = input('Are you interested in this paper?')
+        if input_str == 'y': # do like this paper
+            label([entry.id], True)
+        elif input_str == 'n': # do not
+            label([entry.id], False)
+        elif input_str == 'b': # want to break
+            break
     update_personal_data()
-    write_personal_data()
     return None
