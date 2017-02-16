@@ -148,7 +148,7 @@ def update_personal_data():
             prob = personal_data['vocabulary'][word][str(likeQ)]
             personal_data['vocabulary'][word][str(likeQ)] = update_prob(prob, n, n_update, n_word_update)
         return None
-    def update_like_papers(likeQ):
+    def update_like_papers(likeQ, personal_data):
         for paper_id in like_papers[str(likeQ)]:
             personal_data['like_papers'][str(likeQ)].append(paper_id)
         return None
@@ -245,10 +245,12 @@ def label(id_list, likeQ):
     """
     if likeQ:
         for paper_id in id_list:
-            like_papers['True'].append(paper_id)
+            if paper_id not in like_papers['True']:
+                like_papers['True'].append(paper_id)
     else:
         for paper_id in id_list:
-            like_papers['False'].append(paper_id)
+            if paper_id not in like_papers['False']:
+                like_papers['False'].append(paper_id)
     return None
 
 def read_arxiv(search_query, start = 0, max_results = 10):
