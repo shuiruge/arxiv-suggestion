@@ -7,6 +7,8 @@ The following is a simple instance.
 
 ---
 
+Ensure that you're using Python3, rather than Python2. To start, just type `python3` in your terminal. And then,
+
 ```python
 import arxiv_suggestion as axs
 ```
