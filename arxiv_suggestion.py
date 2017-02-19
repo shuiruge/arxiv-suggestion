@@ -2,11 +2,31 @@
 # We employ "naive Bayes algorithm" (NB for short). For it, c.f.
 # _Machine Learning_ by T. Mitchell, section 6.10, esp. table 6-2.
 # --------------------------------------------------------
+# The structure is as follow. First initialize your personal data
+# if this is the first time that you use `arxiv_suggestion`. By
+# `read_arxiv` you can read papers in the sorted order, wherein
+# the top papers are suggested as interesting to you, while the
+# lower ones are as not interesting. You are also asked to label
+# the paper you just reviewed, so as to continue updating your
+# personal data. Then, `like_papers` stores your labels. And then
+# by `update_personal_data`, `personal_data` is updated by
+# `like_papers`, and then `write_personal_data` writes your updated
+# `personal_data` into `./personal_data` for further usage (in the
+# next you call `read_arxiv`).
+# --------------------------------------------------------
 # Notation:
 #   pre_prob -> prior probability
 #   post_prob -> posterior probability
 #   True -> like it
 #   False -> dislike it
+#
+# Personal_data has the general data structure:
+#   Personal_data = {'vocabulary': Vocabulary,
+#                    'like_papers': {'True': [Str], 'False': [Str]}
+#                    'total_words': {'True': Int, 'False': Int}}
+#   wherein 'total_words' is essential for updating word_frequency in 'vocabulary',
+#   and Vocabulary has the general data structure:
+#   Vocabulary = {Str: {'True': Real, 'False': Real}}
 #
 # We suppose the effective lengh is 5000, that is, there're
 # 5000 common words in English.
@@ -36,11 +56,11 @@ def read_personal_data():
 
 personal_data = read_personal_data()
 
-# ============== Parser ===============
 
+# ============== Parser ===============
+# we followed the parser-example provided by arXiv API website:
 feedparser._FeedParserMixin.namespaces['http://a9.com/-/spec/opensearch/1.1/'] = 'opensearch'
 feedparser._FeedParserMixin.namespaces['http://arxiv.org/schemas/atom'] = 'arxiv'
-# where we followed the parser-example provided by arXiv API website.
 
 def get_entries(search_query, id_list, start, max_results):
     """ Str * [Str] * Int * Int -> [Entry]
@@ -113,14 +133,6 @@ def adjust_entries(entries):
 # ============== Personal Data ===============
 def initialize_personal_data():
     """ -> Personal_data
-    
-    Personal_data = {'vocabulary': Vocabulary,
-                     'like_papers': {'True': [Str], 'False': [Str]}
-                     'total_words': {'True': Int, 'False': Int}}
-    wherein 'total_words' is essential for updating word_frequency in 'vocabulary'.
-    
-    Initially, they are all empty. Vanishing `total_words` will makes error in
-    compute nb_probability by initialized personal_data.
     """
     personal_data = {'vocabulary': {},
                      'like_papers': {'True': [], 'False': []},
@@ -148,14 +160,15 @@ def update_personal_data():
             prob = personal_data['vocabulary'][word][str(likeQ)]
             personal_data['vocabulary'][word][str(likeQ)] = update_prob(prob, n, n_update, n_word_update)
         return None
-    def update_like_papers(likeQ, personal_data):
+    def update_like_papers(likeQ):
         for paper_id in like_papers[str(likeQ)]:
-            personal_data['like_papers'][str(likeQ)].append(paper_id)
+            if paper_id not in personal_data['like_papers'][str(likeQ)]:
+                personal_data['like_papers'][str(likeQ)].append(paper_id)
         return None
     def update_total_words(likeQ, adjusted_entries):
         personal_data['total_words'][str(likeQ)] += sum([len(entry.summary) for entry in adjusted_entries])
     for likeQ in [True, False]:
-        id_list = like_papers[str(likeQ)]
+        id_list = [paper_id for paper_id in like_papers[str(likeQ)] if paper_id not in personal_data['like_papers'][str(likeQ)]]
         adjusted_entries = adjust_entries(get_entries('', id_list, 0, len(id_list)))
         update_vocabulary(likeQ, adjusted_entries)
         update_like_papers(likeQ)
@@ -212,19 +225,19 @@ def write_personal_data():
 def show_entry(entry):
     """ Entry -> 
     """
+    print()
     print("-------------------------")
     print("Title: ", entry.title)
     print("Authors: ", ''.join([item['name'] + ', ' for item in entry.authors])[:-2])
-    print("arXiv id: ", entry.id)
+    print("Update Data: ", entry.updated)
+    print("Link: ", entry.link)
     print("Summary: ", entry.summary)
     print("-------------------------")
-    print()
 
 
 def sort_by_func(lst, func):
     """ [a] * (a -> Real) -> [b]
-        
-    Default is descent.
+    where [a] is sorted to be [b] in order of func(a), descent by default.
     """
     lst_reconstruct = [(func(item), item) for item in lst]
     get_key = lambda item: item[0]
@@ -261,7 +274,7 @@ def read_arxiv(search_query, start = 0, max_results = 10):
     entries_sorted = sort_entries_by_nb(entries, personal_data)
     for entry in entries_sorted:
         show_entry(entry)
-        input_str = input('Are you interested in this paper?')
+        input_str = input('Are you interested in this paper?\n(If yes, type y; else if no, type n; else type Enter. Type b for break.)')
         if input_str == 'y': # do like this paper
             label([entry.id], True)
         elif input_str == 'n': # do not
