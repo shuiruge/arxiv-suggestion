@@ -14,9 +14,33 @@ Example
 
 The following is a simple instance. **You can just follow this pattern of usage to make it your own.** 
 
+### git
+
+If you have known how to git, then just skip this section.
+
+If you have not installed `git`, then install it, by
+    
+    sudo pacman -S git
+    
+in arch linux, or by
+    
+    sudo apt install git
+    
+in ubuntu, or so.
+
+And if you have installed `git`, then, in your (unix-like) terminal, type
+
+    git clone https://github.com/shuiruge/arxiv-suggestion.git
+    
+This repository is then automatically downloaded into the directory where your terminal is. And then
+    
+    cd arxiv-suggestion/
+    
+Done.
+
 ### Import
 
-Ensure that you're using Python3, rather than Python2. To start, just type `python3` in your terminal, the path of which has been the directory of this repository. And then,
+Ensure that you're using Python3, rather than Python2. To start, just type `python3` in your terminal, the path of which has been the directory of this repository (i.e. as in `.../arxiv-suggestion/`). And then,
 
 ```python
 import arxiv_suggestion as axs
