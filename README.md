@@ -68,7 +68,7 @@ help(axs.read_arxiv)
     
 
 
-Suppose you want to read the newest 3 papers in category "gr-qc", you shall set `search_query` as `cat:gr-qc`, demanded by arXiv API, `start` as `0`, and `max_results` as `3`. That is, `axs.read_arxiv('cat:gr-qc', 0, 3)`. Then, papers are shown one by one. In the end of each paper, you are to asked to label it as interesting or not, or just passing it. So,
+Suppose you want to read the newest 3 papers in category "gr-qc", you shall set `search_query` as `cat:gr-qc`, demanded by arXiv API, `start` as `0`, and `max_results` as `3`. That is, `axs.read_arxiv('cat:gr-qc', 0, 3)`. Then, papers are shown one by one. In the end of each paper, you are to asked to label it as interesting or not, or just passing it. So, (In you terminal, the followings are to be shown one by one.)
 
 
 ```python
