@@ -12,11 +12,11 @@ When I was doing my research on physics (inflation), I had to read arXiv in ever
 Example
 ------
 
-The following is a simple instance. **You can just follow this pattern of usage to make it your own.** Note that, in this instance, I set the `search_query` argument of `read_arxiv` to be `'gr-qc'` (as you will see in the following). .
+The following is a simple instance. **You can just follow this pattern of usage to make it your own.** 
 
----
+### Import
 
-Ensure that you're using Python3, rather than Python2. To start, just type `python3` in your terminal. And then,
+Ensure that you're using Python3, rather than Python2. To start, just type `python3` in your terminal, the path of which has been the directory of this repository. And then,
 
 ```python
 import arxiv_suggestion as axs
