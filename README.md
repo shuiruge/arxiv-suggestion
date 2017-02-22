@@ -12,7 +12,7 @@ When I was doing my research on physics (inflation), I had to read arXiv in ever
 Example
 ------
 
-The following is a simple instance. You can following this pattern of usage, make it your own.
+The following is a simple instance. You can just follow this pattern of usage to make it your own.
 
 ---
 
@@ -21,8 +21,6 @@ Ensure that you're using Python3, rather than Python2. To start, just type `pyth
 ```python
 import arxiv_suggestion as axs
 ```
-
-## Personal Data
 
 ### Initialize Your Personal Data
 
@@ -51,7 +49,7 @@ personal_data
 
 
 
-## Reading arXiv while Updating Your Personal Data
+### Reading arXiv while Updating Your Personal Data
 
 `axs.read_arxiv` sorts papers in the order that the papers are regarded as interesting to you, suggested by NB. Your data is read from `./personal_data`. If you do be interested in it, type `y`; if not, type `n`; if you do not know, type `Enter`; and if you want to break, type `b`. In the end, it will update your personal data, but will not write your updated personal data into `./personal_data`.
 
