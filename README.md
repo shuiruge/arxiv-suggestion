@@ -12,7 +12,7 @@ When I was doing my research on physics (inflation), I had to read arXiv in ever
 Example
 ------
 
-The following is a simple instance. **You can just follow this pattern of usage to make it your own.**
+The following is a simple instance. **You can just follow this pattern of usage to make it your own.** Note that, in this instance, I set the `search_query` argument of `read_arxiv` to be `'gr-qc'` (as you will see in the following). .
 
 ---
 
@@ -52,6 +52,9 @@ personal_data
 ### Reading arXiv while Updating Your Personal Data
 
 `axs.read_arxiv` sorts papers in the order that the papers are regarded as interesting to you, suggested by NB. Your data is read from `./personal_data`. If you do be interested in it, type `y`; if not, type `n`; if you do not know, type `Enter`; and if you want to break, type `b`. In the end, it will update your personal data, but will not write your updated personal data into `./personal_data`.
+
+Following arXiv API, `axs.read_arxiv` contains three arguments. `start` and `max_results` means you read the `start`th most recent updated paper to the `start + max_results`th. And `search_query` can be category of arXiv, as we practically take. In this instance, I will set it to be `'gr-qc'`. I You can change it to be anything you like listed [herein](https://arxiv.org/help/api/user-manual#subject_classifications).
+
 
 
 ```python
