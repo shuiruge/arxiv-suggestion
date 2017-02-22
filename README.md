@@ -1,9 +1,18 @@
 arxiv-suggestion
 =========
 
+Description
+---------
 Give everyday suggestion of papers on arxiv.org, sorted in the order that the upper papers are regarded as interesting to you. "Naive Bayes algorithm" is employed. Written by Python3.
 
-The following is a simple instance.
+Motivation
+---------
+When I was doing my research on physics (inflation), I had to read arXiv in every morning, viewing papers in categories: astro-ph, gr-qc, and hep-th. In fact, among almost 100 papers, only several papers are interesting to me. It would benefit a lot if papers are in an order that those several papers interesting to me are shown at the top. Indeed, several website, e.g. feedly.com, does show up three hot papers every time you read. But not enough. Importantly, I want to make such sorting be personalized. That is, only use the data of reading of **mine**! So, I wrote this tiny programme, hoping that it will benefit you also.
+
+Example
+------
+
+The following is a simple instance. You can following this pattern of usage, make it your own.
 
 ---
 
