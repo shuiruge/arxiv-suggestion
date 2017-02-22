@@ -12,7 +12,7 @@ When I was doing my research on physics (inflation), I had to read arXiv in ever
 Example
 ------
 
-The following is a simple instance. You can just follow this pattern of usage to make it your own.
+The following is a simple instance. **You can just follow this pattern of usage to make it your own.**
 
 ---
 
